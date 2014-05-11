@@ -16,6 +16,8 @@ public class ChatServerHandler extends SimpleChannelInboundHandler<String> {
 
 	private Map<String, String> names;
 	
+	private final static String DELIMITER = " : ";
+	
 	public ChatServerHandler(Map<String, String> names) {
 		super();
 		
@@ -33,12 +35,12 @@ public class ChatServerHandler extends SimpleChannelInboundHandler<String> {
 		}
 		
 		for(Channel channel : channels) {
-			channel.writeAndFlush("[SERVER] - " + key + " has joined\n");
+			channel.writeAndFlush("SERVER"+DELIMITER+ key + " has joined\n");
 		}
 
 		names.put(key, key);
 		
-		System.out.println("names " + names.size());
+		System.out.println("Users: " + names.size());
 
 		channels.add(incoming);
 
@@ -49,7 +51,7 @@ public class ChatServerHandler extends SimpleChannelInboundHandler<String> {
 		Channel leaving = ctx.channel();
 
 		for(Channel channel : channels) {
-			channel.writeAndFlush("[SERVER] - " + leaving.remoteAddress() + " has left\n");
+			channel.writeAndFlush("SERVER"+DELIMITER+ leaving.remoteAddress() + " has left\n");
 		}
 
 		names.remove(ctx.channel());
@@ -64,21 +66,24 @@ public class ChatServerHandler extends SimpleChannelInboundHandler<String> {
 
 		Channel incoming = ctx.channel();
 
+		String key = names.get(incoming.remoteAddress().toString());
+		
 		if(msg.startsWith("/name")) {
 
 			changeName(incoming, msg);
 			
 		} else {
-
+			
 			for(Channel channel : channels) {
 
-				channel.writeAndFlush("[" + names.get(incoming) + "]" + msg +"\n");
+				channel.writeAndFlush(key + DELIMITER + msg +"\n");
 
 			}
 
 		}
 		
-		System.out.println(msg);
+		//Print msg in Server Console
+		System.out.println(key + DELIMITER + msg);
 
 	}
 	
