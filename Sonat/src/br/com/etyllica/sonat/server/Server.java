@@ -6,32 +6,39 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 
-public class ChatServer {
-	
-	public static void main(String[] args) throws Exception{
-		new ChatServer(8000).run();
-	}
+public class Server {
 	
 	private final int port;
 
-	public ChatServer(int port){
+	public Server(int port) {
 		this.port = port;
 	}
 	
-	public void run() throws Exception{
+	public void init() throws Exception {
+		
+		System.out.println("Starting Server...");
+		
 		EventLoopGroup bossGroup = new NioEventLoopGroup();
+		
 		EventLoopGroup workerGroup = new NioEventLoopGroup();
 		
-		try{
+		try {
+			
 			ServerBootstrap bootstrap = new ServerBootstrap()
 			.group(bossGroup,workerGroup)
 			.channel(NioServerSocketChannel.class)
 			.childHandler(new ChatServerInitializer());
 			
 			bootstrap.bind(port).sync().channel().closeFuture().sync();
+		
 		} finally {
+			
 			bossGroup.shutdownGracefully();
+			
 			workerGroup.shutdownGracefully();
+			
 		}
+		
 	}
+	
 }
