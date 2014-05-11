@@ -1,9 +1,6 @@
 package br.com.etyllica.sonat.server;
 
 
-import java.util.HashMap;
-import java.util.Map;
-
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -11,23 +8,39 @@ import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.util.concurrent.GlobalEventExecutor;
 
+import java.util.Map;
+
 public class ChatServerHandler extends SimpleChannelInboundHandler<String> {
 
 	private static final ChannelGroup channels = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
-	
-	private Map<Channel, String> names = new HashMap<Channel, String>();
 
+	private Map<String, String> names;
+	
+	public ChatServerHandler(Map<String, String> names) {
+		super();
+		
+		this.names = names;
+	}
+	
 	@Override
 	public void handlerAdded(ChannelHandlerContext ctx) throws Exception {
 		Channel incoming = ctx.channel();
 
+		String key = incoming.remoteAddress().toString();
+		
+		if(names.size() > 0) {
+			tellNames(incoming);
+		}
+		
 		for(Channel channel : channels) {
-			channel.writeAndFlush("[SERVER] - " + incoming.remoteAddress() + " has joined\n");
+			channel.writeAndFlush("[SERVER] - " + key + " has joined\n");
 		}
 
-		names.put(incoming, incoming.remoteAddress().toString());
+		names.put(key, key);
+		
+		System.out.println("names " + names.size());
 
-		channels.add(ctx.channel());
+		channels.add(incoming);
 
 	}
 
@@ -39,7 +52,10 @@ public class ChatServerHandler extends SimpleChannelInboundHandler<String> {
 			channel.writeAndFlush("[SERVER] - " + leaving.remoteAddress() + " has left\n");
 		}
 
+		names.remove(ctx.channel());
+		
 		channels.remove(ctx.channel());
+		
 	}
 
 	@Override
@@ -66,7 +82,25 @@ public class ChatServerHandler extends SimpleChannelInboundHandler<String> {
 
 	}
 	
+	private void tellNames(Channel incoming) {
+		
+		StringBuilder builder = new StringBuilder();
+		
+		for(String name: names.values()) {
+			
+			builder.append(name);
+			
+			builder.append(" ");
+			
+		}
+		
+		incoming.writeAndFlush("/users "+builder.toString()+"\n");
+		
+	}
+	
 	private void changeName(Channel incoming, String msg) {
+		
+		String key = incoming.remoteAddress().toString();
 		
 		String[] parts = msg.split(" ");
 		
@@ -76,9 +110,9 @@ public class ChatServerHandler extends SimpleChannelInboundHandler<String> {
 		
 		String name = msg.split(" ")[1];
 		
-		System.out.println(names.get(incoming)+" change the name to "+name);
+		System.out.println(names.get(key)+" change the name to "+name);
 		
-		names.put(incoming, name);
+		names.put(key, name);
 		
 	}
 

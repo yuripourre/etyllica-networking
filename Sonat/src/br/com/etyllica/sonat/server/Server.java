@@ -1,6 +1,8 @@
 package br.com.etyllica.sonat.server;
 
 
+import java.util.HashMap;
+
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -27,7 +29,7 @@ public class Server {
 			ServerBootstrap bootstrap = new ServerBootstrap()
 			.group(bossGroup,workerGroup)
 			.channel(NioServerSocketChannel.class)
-			.childHandler(new ChatServerInitializer());
+			.childHandler(new ChatServerInitializer(new HashMap<String, String>()));
 			
 			bootstrap.bind(port).sync().channel().closeFuture().sync();
 		

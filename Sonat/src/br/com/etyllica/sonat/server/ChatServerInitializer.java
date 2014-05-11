@@ -9,8 +9,18 @@ import io.netty.handler.codec.Delimiters;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
 
+import java.util.Map;
+
 public class ChatServerInitializer extends ChannelInitializer<SocketChannel> {
 
+	private Map<String, String> names;
+	
+	public ChatServerInitializer(Map<String, String> names) {
+		super();
+		
+		this.names = names;
+	}
+	
 	@Override
 	protected void initChannel(SocketChannel ch) throws Exception {
 		ChannelPipeline pipeline = ch.pipeline();
@@ -19,7 +29,8 @@ public class ChatServerInitializer extends ChannelInitializer<SocketChannel> {
 		pipeline.addLast("decoder", new StringDecoder());
 		pipeline.addLast("encoder", new StringEncoder());
 
-		pipeline.addLast("handler", new ChatServerHandler());
+		pipeline.addLast("handler", new ChatServerHandler(names));
+		
 	}
 
 }
