@@ -40,10 +40,20 @@ public class DesktopClient extends Client implements ClientListener {
 
 	@Override
 	public void updateNames(String[] names) {
-		// TODO Auto-generated method stub
-
+		
+		String text = "Names: ";
+				
+		text+= names[0];
+		
+		for(int i=1;i<names.length;i++) {
+			text += " ";
+			text += names[i];
+		}
+		
+		System.out.println(text+".");
+		
 	}
-
+	
 	@Override
 	public void receiveMessage(String name, String message) {
 		System.out.println(name+": "+message);
