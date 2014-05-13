@@ -1,4 +1,4 @@
-package br.com.etyllica.sonat.netty.server;
+package br.com.etyllica.sonat.adapter.netty.server;
 
 
 import io.netty.channel.Channel;
@@ -10,7 +10,9 @@ import io.netty.util.concurrent.GlobalEventExecutor;
 
 import java.util.Map;
 
-public class NettyChatServerHandler extends SimpleChannelInboundHandler<String> {
+import br.com.etyllica.sonat.chat.ChatServerHandler;
+
+public class NettyChatServerHandler extends SimpleChannelInboundHandler<String> implements ChatServerHandler {
 
 	private static final ChannelGroup channels = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
 
@@ -38,23 +40,25 @@ public class NettyChatServerHandler extends SimpleChannelInboundHandler<String> 
 			return;
 		}
 		
-		Channel incoming = ctx.channel();
+		Channel channel = ctx.channel();
 
-		String key = names.get(incoming.remoteAddress().toString());
+		String key = getKey(channel);
+		
+		String name = names.get(key);
 		
 		if(msg.startsWith(COMMAND_NAME)) {
 
-			changeName(incoming, msg);
+			changeName(key, msg);
 		
 			tellNames();
 						
 		} else {
 			
-			tellMessage(key, msg);
-						
+			tellMessage(name, msg);
+									
 		}
 		
-		System.out.println(key + DELIMITER + msg);
+		System.out.println(name + DELIMITER + msg);
 		
 	}
 	
@@ -64,16 +68,12 @@ public class NettyChatServerHandler extends SimpleChannelInboundHandler<String> 
 		
 		count++;
 
-		String key = incoming.remoteAddress().toString();
+		String key = getKey(incoming);
 		
 		names.put(key, "visitante"+count);
-		
-		System.out.println("Users: " + names.size());
-		
+				
 		channels.add(incoming);
-		
-		incoming.writeAndFlush("Server"+DELIMITER+"Hello!\r\n");
-		
+				
 		tellNames();
 		
 	}
@@ -82,19 +82,33 @@ public class NettyChatServerHandler extends SimpleChannelInboundHandler<String> 
 	public void handlerRemoved(ChannelHandlerContext ctx) throws Exception {
 		Channel leaving = ctx.channel();
 
-		String key = leaving.remoteAddress().toString();
+		String key = getKey(leaving);
 		
 		names.remove(key);
-		
-		System.out.println("Users: " + names.size());
-		
+				
 		channels.remove(leaving);
 		
 		tellNames();
 		
 	}
 	
-	private void tellNames() {
+	public void changeName(String key, String msg) {
+				
+		String[] parts = msg.split(" ");
+		
+		if(parts.length < 2) {
+			return;
+		}
+		
+		String name = msg.split(" ")[1];
+		
+		System.out.println(names.get(key)+" change the name to "+name);
+		
+		names.put(key, name);
+		
+	}
+		
+	public void tellNames() {
 		
 		StringBuilder builder = new StringBuilder();
 		
@@ -110,31 +124,13 @@ public class NettyChatServerHandler extends SimpleChannelInboundHandler<String> 
 		
 	}
 	
-	private void tellMessage(String name, String message) {
+	public void tellMessage(String name, String message) {
 		
 		tellAll("/msg "+name+" "+message);
 		
 	}
 	
-	private void changeName(Channel incoming, String msg) {
-		
-		String key = incoming.remoteAddress().toString();
-		
-		String[] parts = msg.split(" ");
-		
-		if(parts.length < 2) {
-			return;
-		}
-		
-		String name = msg.split(" ")[1];
-		
-		System.out.println(names.get(key)+" change the name to "+name);
-		
-		names.put(key, name);
-		
-	}
-	
-	private void tellAll(String message) {
+	public void tellAll(String message) {
 		
 		for(Channel channel : channels) {
 
@@ -142,6 +138,14 @@ public class NettyChatServerHandler extends SimpleChannelInboundHandler<String> 
 
 		}
 		
+	}
+
+	@Override
+	public String getKey(Object channel) {
+		
+		Channel incoming = (Channel) channel; 
+		
+		return incoming.remoteAddress().toString();
 	}
 
 }

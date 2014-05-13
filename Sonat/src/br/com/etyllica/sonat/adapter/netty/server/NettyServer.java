@@ -1,4 +1,4 @@
-package br.com.etyllica.sonat.netty.server;
+package br.com.etyllica.sonat.adapter.netty.server;
 
 
 import java.util.HashMap;

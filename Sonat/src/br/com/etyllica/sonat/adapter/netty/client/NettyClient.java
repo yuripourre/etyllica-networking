@@ -1,4 +1,4 @@
-package br.com.etyllica.sonat.netty.client;
+package br.com.etyllica.sonat.adapter.netty.client;
 
 
 import br.com.etyllica.sonat.client.Client;
