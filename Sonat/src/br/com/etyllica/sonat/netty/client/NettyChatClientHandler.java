@@ -1,10 +1,11 @@
-package br.com.etyllica.sonat.client;
+package br.com.etyllica.sonat.netty.client;
 
 
+import br.com.etyllica.sonat.client.ClientListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
-public class ChatClientHandler extends SimpleChannelInboundHandler<String> {
+public class NettyChatClientHandler extends SimpleChannelInboundHandler<String> {
 
 	private ClientListener listener;
 		
@@ -12,7 +13,7 @@ public class ChatClientHandler extends SimpleChannelInboundHandler<String> {
 	
 	private static final String COMMAND_MESSAGE = "/msg ";//whiteSpacing
 	
-	public ChatClientHandler(ClientListener listener) {
+	public NettyChatClientHandler(ClientListener listener) {
 		super();
 		
 		this.listener = listener;		

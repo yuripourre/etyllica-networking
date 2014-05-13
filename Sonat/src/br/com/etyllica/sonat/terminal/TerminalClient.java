@@ -1,4 +1,4 @@
-package br.com.etyllica.sonat.desktop;
+package br.com.etyllica.sonat.terminal;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -6,24 +6,28 @@ import java.io.InputStreamReader;
 import br.com.etyllica.sonat.client.Client;
 import br.com.etyllica.sonat.client.ClientListener;
 
-public class DesktopClient extends Client implements ClientListener {
+public class TerminalClient implements ClientListener {
 
-	public DesktopClient(String host, int port) {
-		super(host, port);
+	private Client client;
+	
+	public TerminalClient(Client client) {
+		super();
 
-		setListener(this);
+		this.client = client;
+		
+		client.setListener(this);
 
 	}
 
 	public void init() throws Exception {
-		super.init();
+		client.init();
 
 		try {
 
 			BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 
 			while (true) {
-				sendMessage(in.readLine());
+				client.sendMessage(in.readLine());
 			}
 
 		} catch (Exception e) {
@@ -32,7 +36,7 @@ public class DesktopClient extends Client implements ClientListener {
 
 		} finally {
 
-			finish();
+			client.finish();
 
 		}
 
@@ -56,7 +60,7 @@ public class DesktopClient extends Client implements ClientListener {
 	
 	@Override
 	public void receiveMessage(String name, String message) {
-		System.out.println(name+">> "+message);
+		System.out.println(name+" >> "+message);
 	}
 
 }

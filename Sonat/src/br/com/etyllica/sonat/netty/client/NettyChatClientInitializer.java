@@ -1,6 +1,7 @@
-package br.com.etyllica.sonat.client;
+package br.com.etyllica.sonat.netty.client;
 
 
+import br.com.etyllica.sonat.client.ClientListener;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
@@ -9,11 +10,11 @@ import io.netty.handler.codec.Delimiters;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
 
-public class ChatClientInitializer extends ChannelInitializer<SocketChannel> {
+public class NettyChatClientInitializer extends ChannelInitializer<SocketChannel> {
 
 	public ClientListener listener;
 	
-	public ChatClientInitializer(ClientListener listener) {
+	public NettyChatClientInitializer(ClientListener listener) {
 		super();
 		
 		this.listener = listener;		
@@ -27,7 +28,7 @@ public class ChatClientInitializer extends ChannelInitializer<SocketChannel> {
 		pipeline.addLast("decoder", new StringDecoder());
 		pipeline.addLast("encoder", new StringEncoder());
 
-		pipeline.addLast("handler", new ChatClientHandler(listener));		
+		pipeline.addLast("handler", new NettyChatClientHandler(listener));		
 
 	}
 
