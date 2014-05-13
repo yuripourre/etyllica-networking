@@ -56,7 +56,7 @@ public class DesktopClient extends Client implements ClientListener {
 	
 	@Override
 	public void receiveMessage(String name, String message) {
-		System.out.println(name+": "+message);
+		System.out.println(name+">> "+message);
 	}
 
 }
