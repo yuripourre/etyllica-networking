@@ -52,7 +52,10 @@ public class MinaChatClientHandler extends IoHandlerAdapter {
 
 	@Override
 	public void exceptionCaught(IoSession session, Throwable cause) {
-		session.close();
+		
+		final boolean forceClose = true;
+		
+		session.close(forceClose);
 	}
 
 }

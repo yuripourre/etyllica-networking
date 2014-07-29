@@ -87,7 +87,9 @@ public class MinaChatServerHandler extends IoHandlerAdapter implements ChatServe
 		System.out.println("Disconnecting the idle.");
 		
 		// disconnect an idle client
-		session.close();
+		final boolean forceClose = true;
+		
+		session.close(forceClose);
 		
 		tellNames();
 		
@@ -96,7 +98,9 @@ public class MinaChatServerHandler extends IoHandlerAdapter implements ChatServe
 	@Override
 	public void exceptionCaught(IoSession session, Throwable cause) {
 		// close the connection on exceptional situation
-		session.close();
+		final boolean forceClose = true;
+		
+		session.close(forceClose);
 	}
 	
 	public String getKey(Object channel) {
