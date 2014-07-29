@@ -1,4 +1,4 @@
 sonat
 =====
 
-Chat example using netty
+Chat example using [Netty](http://netty.io/) or [Mina](https://mina.apache.org/)
