@@ -19,6 +19,7 @@ public class NettyClient extends ClientImpl {
 		super(host, port);
 	}
 
+	@Override
 	public void init() {
 		group = new OioEventLoopGroup();
 		
@@ -26,11 +27,13 @@ public class NettyClient extends ClientImpl {
 		bootstrap.group(group);
 	}
 
+	@Override
 	public void finish() {
 		group.shutdownGracefully();
 	}
 
-	public void sendMessage(String message) {
+	@Override
+	public void sendTCP(String message) {
 		channel.writeAndFlush(message+"\r\n");
 	}
 

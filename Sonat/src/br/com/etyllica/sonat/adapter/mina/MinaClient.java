@@ -29,7 +29,7 @@ public class MinaClient extends ClientImpl {
 	}
 
 	@Override
-	public void sendMessage(String message) {
+	public void sendTCP(String message) {
 		session.write(message);
 	}
 

@@ -11,6 +11,6 @@ public interface Client {
 	
 	public void finish();
 	
-	public void sendMessage(String message);
+	public void sendTCP(String message);
 		
 }
