@@ -15,16 +15,13 @@ public class TerminalChatClient implements ClientChatListener {
 	}
 
 	public void init() throws Exception {
-		client.init();
-		client.prepare();
-		client.connect();
-
+		
 		try {
 
 			BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 
 			while (true) {
-				client.sendMessage(in.readLine());
+				client.sendTCP(in.readLine());
 			}
 
 		} catch (Exception e) {

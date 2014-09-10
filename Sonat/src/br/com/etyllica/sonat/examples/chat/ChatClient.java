@@ -15,6 +15,9 @@ public class ChatClient {
 		
 		//Client client = new NettyChatClient(host, ChatServer.CHAT_PORT, chat);
 		Client client = new MinaChatClient(host, ChatServer.CHAT_PORT, chat);
+		client.init();
+		client.prepare();
+		client.connect();
 		
 		chat.setClient(client);
 		chat.init();
