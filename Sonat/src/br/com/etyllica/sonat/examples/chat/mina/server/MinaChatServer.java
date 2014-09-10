@@ -1,4 +1,4 @@
-package br.com.etyllica.sonat.chat.mina.server;
+package br.com.etyllica.sonat.examples.chat.mina.server;
 
 import java.nio.charset.Charset;
 

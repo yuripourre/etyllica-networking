@@ -1,4 +1,4 @@
-package br.com.etyllica.sonat.chat;
+package br.com.etyllica.sonat.examples.chat;
 
 public interface ClientChatListener {
 

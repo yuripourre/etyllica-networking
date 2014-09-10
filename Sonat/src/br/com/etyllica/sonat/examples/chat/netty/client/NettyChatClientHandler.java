@@ -1,7 +1,7 @@
-package br.com.etyllica.sonat.chat.netty.client;
+package br.com.etyllica.sonat.examples.chat.netty.client;
 
 
-import br.com.etyllica.sonat.chat.ClientChatListener;
+import br.com.etyllica.sonat.examples.chat.ClientChatListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 

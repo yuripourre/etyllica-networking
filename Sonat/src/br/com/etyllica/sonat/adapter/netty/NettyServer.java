@@ -38,7 +38,7 @@ public class NettyServer extends ServerImpl implements Server {
 
 	@Override
 	public void bind() throws Exception {
-		bootstrap.bind(port).sync().channel().closeFuture().sync();
+		bootstrap.bind(tcpPort).sync().channel().closeFuture().sync();
 	}
 
 	@Override

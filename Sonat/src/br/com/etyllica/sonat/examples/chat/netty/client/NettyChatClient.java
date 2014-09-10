@@ -1,9 +1,9 @@
-package br.com.etyllica.sonat.chat.netty.client;
+package br.com.etyllica.sonat.examples.chat.netty.client;
 
 import io.netty.channel.ChannelOption;
 import io.netty.channel.socket.oio.OioSocketChannel;
 import br.com.etyllica.sonat.adapter.netty.NettyClient;
-import br.com.etyllica.sonat.chat.ClientChatListener;
+import br.com.etyllica.sonat.examples.chat.ClientChatListener;
 
 public class NettyChatClient extends NettyClient {
 

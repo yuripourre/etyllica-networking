@@ -1,4 +1,4 @@
-package br.com.etyllica.sonat.chat.netty.server;
+package br.com.etyllica.sonat.examples.chat.netty.server;
 
 import io.netty.channel.ChannelOption;
 
@@ -15,7 +15,7 @@ public class NettyChatServer extends NettyServer {
 	@Override
 	public void prepare() {
 		
-		System.out.println("Starting Netty Chat Server..."+port);
+		System.out.println("Starting Netty Chat Server..."+tcpPort);
 		
 		bootstrap
 		.option(ChannelOption.TCP_NODELAY, true)

@@ -1,4 +1,4 @@
-package br.com.etyllica.sonat.chat.netty.server;
+package br.com.etyllica.sonat.examples.chat.netty.server;
 
 
 import io.netty.channel.ChannelInitializer;

@@ -1,9 +1,9 @@
-package br.com.etyllica.sonat;
+package br.com.etyllica.sonat.examples.chat;
 
-import br.com.etyllica.sonat.chat.mina.client.MinaChatClient;
-import br.com.etyllica.sonat.chat.netty.client.NettyChatClient;
 import br.com.etyllica.sonat.client.Client;
-import br.com.etyllica.sonat.terminal.TerminalClient;
+import br.com.etyllica.sonat.examples.chat.mina.client.MinaChatClient;
+import br.com.etyllica.sonat.examples.chat.netty.client.NettyChatClient;
+import br.com.etyllica.sonat.examples.chat.terminal.TerminalChatClient;
 
 public class ChatClient {
 
@@ -11,7 +11,7 @@ public class ChatClient {
 		
 		String host = "127.0.0.1";
 		
-		TerminalClient chat = new TerminalClient();
+		TerminalChatClient chat = new TerminalChatClient();
 		
 		//Client client = new NettyChatClient(host, ChatServer.CHAT_PORT, chat);
 		Client client = new MinaChatClient(host, ChatServer.CHAT_PORT, chat);

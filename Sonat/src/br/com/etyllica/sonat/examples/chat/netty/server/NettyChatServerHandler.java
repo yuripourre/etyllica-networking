@@ -1,4 +1,4 @@
-package br.com.etyllica.sonat.chat.netty.server;
+package br.com.etyllica.sonat.examples.chat.netty.server;
 
 
 import io.netty.channel.Channel;
@@ -10,9 +10,9 @@ import io.netty.util.concurrent.GlobalEventExecutor;
 
 import java.util.Map;
 
-import br.com.etyllica.sonat.chat.ServerChatHandler;
+import br.com.etyllica.sonat.examples.chat.ServerChatListener;
 
-public class NettyChatServerHandler extends SimpleChannelInboundHandler<String> implements ServerChatHandler {
+public class NettyChatServerHandler extends SimpleChannelInboundHandler<String> implements ServerChatListener {
 
 	private static final ChannelGroup channels = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
 

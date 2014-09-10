@@ -1,7 +1,7 @@
-package br.com.etyllica.sonat;
+package br.com.etyllica.sonat.examples.chat;
 
-import br.com.etyllica.sonat.chat.mina.server.MinaChatServer;
-import br.com.etyllica.sonat.chat.netty.server.NettyChatServer;
+import br.com.etyllica.sonat.examples.chat.mina.server.MinaChatServer;
+import br.com.etyllica.sonat.examples.chat.netty.server.NettyChatServer;
 import br.com.etyllica.sonat.server.Server;
 
 public class ChatServer {

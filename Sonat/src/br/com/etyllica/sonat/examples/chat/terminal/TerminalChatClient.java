@@ -1,16 +1,16 @@
-package br.com.etyllica.sonat.terminal;
+package br.com.etyllica.sonat.examples.chat.terminal;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
-import br.com.etyllica.sonat.chat.ClientChatListener;
 import br.com.etyllica.sonat.client.Client;
+import br.com.etyllica.sonat.examples.chat.ClientChatListener;
 
-public class TerminalClient implements ClientChatListener {
+public class TerminalChatClient implements ClientChatListener {
 
 	private Client client;
 	
-	public TerminalClient() {
+	public TerminalChatClient() {
 		super();
 	}
 

@@ -10,7 +10,7 @@ import org.apache.mina.filter.codec.textline.TextLineCodecFactory;
 import org.apache.mina.filter.logging.LoggingFilter;
 import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
 
-import br.com.etyllica.sonat.chat.mina.server.MinaChatServerHandler;
+import br.com.etyllica.sonat.examples.chat.mina.server.MinaChatServerHandler;
 import br.com.etyllica.sonat.server.Server;
 import br.com.etyllica.sonat.server.ServerImpl;
 
@@ -40,7 +40,7 @@ public class MinaServer extends ServerImpl implements Server {
 
 	@Override
 	public void bind() throws Exception {
-		acceptor.bind(new InetSocketAddress(port));
+		acceptor.bind(new InetSocketAddress(tcpPort));
 	}
 
 	@Override

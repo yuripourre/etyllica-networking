@@ -1,9 +1,9 @@
-package br.com.etyllica.sonat.chat.mina.client;
+package br.com.etyllica.sonat.examples.chat.mina.client;
 
 import org.apache.mina.core.service.IoHandlerAdapter;
 import org.apache.mina.core.session.IoSession;
 
-import br.com.etyllica.sonat.chat.ClientChatListener;
+import br.com.etyllica.sonat.examples.chat.ClientChatListener;
 
 public class MinaChatClientHandler extends IoHandlerAdapter {
 

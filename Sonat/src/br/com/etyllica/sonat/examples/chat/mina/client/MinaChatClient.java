@@ -1,4 +1,4 @@
-package br.com.etyllica.sonat.chat.mina.client;
+package br.com.etyllica.sonat.examples.chat.mina.client;
 
 import java.nio.charset.Charset;
 
@@ -7,7 +7,7 @@ import org.apache.mina.filter.codec.textline.TextLineCodecFactory;
 import org.apache.mina.filter.logging.LoggingFilter;
 
 import br.com.etyllica.sonat.adapter.mina.MinaClient;
-import br.com.etyllica.sonat.chat.ClientChatListener;
+import br.com.etyllica.sonat.examples.chat.ClientChatListener;
 
 public class MinaChatClient extends MinaClient {
 
