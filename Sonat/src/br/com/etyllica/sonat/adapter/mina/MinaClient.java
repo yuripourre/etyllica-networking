@@ -7,10 +7,9 @@ import org.apache.mina.core.service.IoConnector;
 import org.apache.mina.core.session.IoSession;
 import org.apache.mina.transport.socket.nio.NioSocketConnector;
 
-import br.com.etyllica.sonat.client.Client;
 import br.com.etyllica.sonat.client.ClientImpl;
 
-public class MinaClient extends ClientImpl implements Client {
+public class MinaClient extends ClientImpl {
 
 	protected IoConnector connector;
 	

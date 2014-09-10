@@ -1,13 +1,13 @@
 package br.com.etyllica.sonat.client;
 
+import br.com.etyllica.sonat.Sonat;
 
-public abstract class ClientImpl {
 
-	public final static int UNDEFINED_PORT = -1;
+public abstract class ClientImpl implements Client {
 	
 	protected String host;
 
-	protected int tcpPort = UNDEFINED_PORT;
+	protected int tcpPort = Sonat.UNDEFINED_PORT;
 		
 	public ClientImpl(String host, int port) {
 		super();

@@ -8,7 +8,7 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import br.com.etyllica.sonat.server.Server;
 import br.com.etyllica.sonat.server.ServerImpl;
 
-public class NettyServer extends ServerImpl implements Server {
+public class NettyServer extends ServerImpl {
 
 	protected EventLoopGroup bossGroup;
 

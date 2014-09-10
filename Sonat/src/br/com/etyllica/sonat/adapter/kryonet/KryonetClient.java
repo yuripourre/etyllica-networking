@@ -1,20 +1,23 @@
 package br.com.etyllica.sonat.adapter.kryonet;
 
 
-import br.com.etyllica.sonat.client.Client;
+import com.esotericsoftware.kryonet.Client;
+
 import br.com.etyllica.sonat.client.ClientImpl;
 
-public class KryonetClient extends ClientImpl implements Client {
+public class KryonetClient extends ClientImpl {
 
-	com.esotericsoftware.kryonet.Client client;
+	private static final int MAXIMUM_WAIT_TIME = 5000;
+	
+	protected Client client;
 	
 	public KryonetClient(String host, int port) {
 		super(host, port);
 	}
 
 	public void init() {
-		client = new com.esotericsoftware.kryonet.Client();
-		client.start();		
+		client = new Client();
+		client.start();
 	}
 
 	public void finish() {
@@ -22,19 +25,17 @@ public class KryonetClient extends ClientImpl implements Client {
 	}
 
 	public void sendMessage(String message) {
-		//channel.writeAndFlush(message+"\r\n");
 		client.sendTCP(message);
 	}
 
 	@Override
 	public void prepare() {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void connect() throws Exception {
-		client.connect(5000, host, tcpPort);
+		client.connect(MAXIMUM_WAIT_TIME, host, tcpPort);
 	}
 
 }

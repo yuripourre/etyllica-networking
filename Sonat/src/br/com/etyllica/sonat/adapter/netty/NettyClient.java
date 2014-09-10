@@ -5,10 +5,9 @@ import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.oio.OioEventLoopGroup;
-import br.com.etyllica.sonat.client.Client;
 import br.com.etyllica.sonat.client.ClientImpl;
 
-public class NettyClient extends ClientImpl implements Client {
+public class NettyClient extends ClientImpl {
 
 	private Channel channel;
 

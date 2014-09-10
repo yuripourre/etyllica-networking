@@ -11,10 +11,9 @@ import org.apache.mina.filter.logging.LoggingFilter;
 import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
 
 import br.com.etyllica.sonat.examples.chat.mina.server.MinaChatServerHandler;
-import br.com.etyllica.sonat.server.Server;
 import br.com.etyllica.sonat.server.ServerImpl;
 
-public class MinaServer extends ServerImpl implements Server {
+public class MinaServer extends ServerImpl {
 	 
 	protected IoAcceptor acceptor;
 	
