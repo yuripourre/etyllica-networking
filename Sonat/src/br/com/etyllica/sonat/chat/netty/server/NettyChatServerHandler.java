@@ -10,9 +10,9 @@ import io.netty.util.concurrent.GlobalEventExecutor;
 
 import java.util.Map;
 
-import br.com.etyllica.sonat.chat.ChatServerHandler;
+import br.com.etyllica.sonat.chat.ServerChatHandler;
 
-public class NettyChatServerHandler extends SimpleChannelInboundHandler<String> implements ChatServerHandler {
+public class NettyChatServerHandler extends SimpleChannelInboundHandler<String> implements ServerChatHandler {
 
 	private static final ChannelGroup channels = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
 

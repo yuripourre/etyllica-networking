@@ -11,10 +11,13 @@ public class ChatClient {
 		
 		String host = "127.0.0.1";
 		
-		//Client client = new NettyChatClient(host, ChatServer.CHAT_PORT);
-		Client client = new MinaChatClient(host, ChatServer.CHAT_PORT);
+		TerminalClient chat = new TerminalClient();
 		
-		new TerminalClient(client).init();
+		//Client client = new NettyChatClient(host, ChatServer.CHAT_PORT, chat);
+		Client client = new MinaChatClient(host, ChatServer.CHAT_PORT, chat);
+		
+		chat.setClient(client);
+		chat.init();
 	}
 
 }

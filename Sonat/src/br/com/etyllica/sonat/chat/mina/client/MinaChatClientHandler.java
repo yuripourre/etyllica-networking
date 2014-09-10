@@ -3,17 +3,17 @@ package br.com.etyllica.sonat.chat.mina.client;
 import org.apache.mina.core.service.IoHandlerAdapter;
 import org.apache.mina.core.session.IoSession;
 
-import br.com.etyllica.sonat.client.ClientListener;
+import br.com.etyllica.sonat.chat.ClientChatListener;
 
 public class MinaChatClientHandler extends IoHandlerAdapter {
 
-	private ClientListener listener;
+	private ClientChatListener listener;
 
 	private static final String COMMAND_USERS = "/users ";//whiteSpacing
 
 	private static final String COMMAND_MESSAGE = "/msg ";//whiteSpacing
 
-	public MinaChatClientHandler(ClientListener listener) {
+	public MinaChatClientHandler(ClientChatListener listener) {
 		this.listener = listener;
 	}
 

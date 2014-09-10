@@ -1,19 +1,19 @@
 package br.com.etyllica.sonat.chat.netty.client;
 
 
-import br.com.etyllica.sonat.client.ClientListener;
+import br.com.etyllica.sonat.chat.ClientChatListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
 public class NettyChatClientHandler extends SimpleChannelInboundHandler<String> {
 
-	private ClientListener listener;
+	private ClientChatListener listener;
 		
 	private static final String COMMAND_USERS = "/users ";//whiteSpacing
 	
 	private static final String COMMAND_MESSAGE = "/msg ";//whiteSpacing
 	
-	public NettyChatClientHandler(ClientListener listener) {
+	public NettyChatClientHandler(ClientChatListener listener) {
 		super();
 		
 		this.listener = listener;		

@@ -3,19 +3,15 @@ package br.com.etyllica.sonat.terminal;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
+import br.com.etyllica.sonat.chat.ClientChatListener;
 import br.com.etyllica.sonat.client.Client;
-import br.com.etyllica.sonat.client.ClientListener;
 
-public class TerminalClient implements ClientListener {
+public class TerminalClient implements ClientChatListener {
 
 	private Client client;
 	
-	public TerminalClient(Client client) {
+	public TerminalClient() {
 		super();
-
-		this.client = client;
-		
-		client.setListener(this);
 	}
 
 	public void init() throws Exception {
@@ -63,5 +59,13 @@ public class TerminalClient implements ClientListener {
 	public void receiveMessage(String name, String message) {
 		System.out.println(name+" >> "+message);
 	}
+
+	public Client getClient() {
+		return client;
+	}
+
+	public void setClient(Client client) {
+		this.client = client;
+	}	
 
 }

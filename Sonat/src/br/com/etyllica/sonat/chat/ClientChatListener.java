@@ -1,6 +1,6 @@
-package br.com.etyllica.sonat.client;
+package br.com.etyllica.sonat.chat;
 
-public interface ClientListener {
+public interface ClientChatListener {
 
 	public void updateNames(String[] names);
 	

@@ -7,7 +7,6 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.oio.OioEventLoopGroup;
 import br.com.etyllica.sonat.client.Client;
 import br.com.etyllica.sonat.client.ClientImpl;
-import br.com.etyllica.sonat.client.ClientListener;
 
 public class NettyClient extends ClientImpl implements Client {
 
@@ -19,10 +18,6 @@ public class NettyClient extends ClientImpl implements Client {
 
 	public NettyClient(String host, int port) {
 		super(host, port);
-	}
-
-	public NettyClient(String host, int port, ClientListener listener) {
-		super(host, port, listener);
 	}
 
 	public void init() {

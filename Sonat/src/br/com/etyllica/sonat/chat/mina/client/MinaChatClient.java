@@ -7,11 +7,15 @@ import org.apache.mina.filter.codec.textline.TextLineCodecFactory;
 import org.apache.mina.filter.logging.LoggingFilter;
 
 import br.com.etyllica.sonat.adapter.mina.MinaClient;
+import br.com.etyllica.sonat.chat.ClientChatListener;
 
 public class MinaChatClient extends MinaClient {
 
-	public MinaChatClient(String host, int port) {
+	protected ClientChatListener listener;
+	
+	public MinaChatClient(String host, int port, ClientChatListener listener) {
 		super(host, port);
+		this.listener = listener;
 	}
 	
 	@Override

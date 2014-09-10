@@ -9,9 +9,9 @@ import org.apache.mina.core.service.IoHandlerAdapter;
 import org.apache.mina.core.session.IdleStatus;
 import org.apache.mina.core.session.IoSession;
 
-import br.com.etyllica.sonat.chat.ChatServerHandler;
+import br.com.etyllica.sonat.chat.ServerChatHandler;
 
-public class MinaChatServerHandler extends IoHandlerAdapter implements ChatServerHandler {
+public class MinaChatServerHandler extends IoHandlerAdapter implements ServerChatHandler {
 	
 	private final static String UNIQUE_ID = "ID"; 
 	

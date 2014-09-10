@@ -2,7 +2,7 @@ package br.com.etyllica.sonat.chat;
 
 import br.com.etyllica.sonat.server.ServerHandler;
 
-public interface ChatServerHandler extends ServerHandler {
+public interface ServerChatHandler extends ServerHandler {
 
 	public void tellNames();
 	
