@@ -1,6 +1,6 @@
 package br.com.etyllica.sonat.examples.action;
 
-import br.com.etyllica.sonat.examples.action.kryo.client.KryoActionServer;
+import br.com.etyllica.sonat.examples.action.kryo.KryoActionServer;
 import br.com.etyllica.sonat.server.Server;
 
 public class ActionServerApplication {

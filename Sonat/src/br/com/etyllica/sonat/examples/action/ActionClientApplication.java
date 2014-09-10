@@ -1,6 +1,6 @@
 package br.com.etyllica.sonat.examples.action;
 
-import br.com.etyllica.sonat.examples.action.kryo.client.KryoActionClient;
+import br.com.etyllica.sonat.examples.action.kryo.KryoActionClient;
 import br.com.etyllica.sonat.examples.action.model.ActionClient;
 
 public class ActionClientApplication {
