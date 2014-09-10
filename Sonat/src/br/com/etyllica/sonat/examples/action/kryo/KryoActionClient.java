@@ -1,4 +1,4 @@
-package br.com.etyllica.sonat.examples.action.kryo.client;
+package br.com.etyllica.sonat.examples.action.kryo;
 
 import br.com.etyllica.sonat.adapter.kryo.KryonetMixedClient;
 import br.com.etyllica.sonat.examples.action.model.ActionClient;
@@ -40,7 +40,6 @@ public class KryoActionClient extends KryonetMixedClient implements ActionClient
 
 	@Override
 	public void sendState() {
-		System.out.println("trying to send state");
-		client.sendTCP(state);
+		client.sendUDP(state);
 	}
 }
