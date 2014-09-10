@@ -16,11 +16,12 @@ public class TerminalClient implements ClientListener {
 		this.client = client;
 		
 		client.setListener(this);
-
 	}
 
 	public void init() throws Exception {
 		client.init();
+		client.prepare();
+		client.connect();
 
 		try {
 

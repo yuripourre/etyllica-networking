@@ -2,9 +2,11 @@ package br.com.etyllica.sonat.client;
 
 public abstract class ClientImpl {
 
+	public final static int UNDEFINED_PORT = -1;
+	
 	protected String host;
 
-	protected int port;
+	protected int tcpPort = UNDEFINED_PORT;
 	
 	protected ClientListener listener;
 	
@@ -12,14 +14,14 @@ public abstract class ClientImpl {
 		super();
 
 		this.host = host;
-		this.port = port;
+		this.tcpPort = port;
 	}
 	
 	public ClientImpl(String host, int port, ClientListener listener) {
 		super();
 
 		this.host = host;
-		this.port = port;
+		this.tcpPort = port;
 
 		this.listener = listener;
 	}
@@ -36,8 +38,8 @@ public abstract class ClientImpl {
 		return host;
 	}
 
-	public int getPort() {
-		return port;
+	public int getTcpPort() {
+		return tcpPort;
 	}	
 	
 }

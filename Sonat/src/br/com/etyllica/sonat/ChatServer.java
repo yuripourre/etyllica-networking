@@ -1,15 +1,22 @@
 package br.com.etyllica.sonat;
 
-import br.com.etyllica.sonat.adapter.mina.server.MinaServer;
-import br.com.etyllica.sonat.adapter.netty.server.NettyServer;
+import br.com.etyllica.sonat.chat.mina.server.MinaChatServer;
+import br.com.etyllica.sonat.chat.netty.server.NettyChatServer;
+import br.com.etyllica.sonat.server.Server;
 
 public class ChatServer {
 
-	private static final int DEFAULT_PORT = 4444;
+	public static final int CHAT_PORT = 4444;
 	
 	public static void main(String[] args) throws Exception {
-		new NettyServer(DEFAULT_PORT).init();
-		//new MinaServer(DEFAULT_PORT).init();
+		
+		//Server server = new NettyChatServer(CHAT_PORT);
+		
+		Server server = new MinaChatServer(CHAT_PORT);
+		
+		server.init();
+		server.prepare();
+		server.bind();
 	}
 	
 }

@@ -1,4 +1,4 @@
-package br.com.etyllica.sonat.adapter.mina.server;
+package br.com.etyllica.sonat.chat.mina.server;
 
 import java.util.ArrayList;
 import java.util.HashMap;
