@@ -5,12 +5,9 @@ import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import br.com.etyllica.sonat.server.Server;
 import br.com.etyllica.sonat.server.ServerImpl;
 
 public class NettyServer extends ServerImpl {
-
-	protected EventLoopGroup bossGroup;
 
 	protected EventLoopGroup workerGroup;
 
@@ -22,13 +19,11 @@ public class NettyServer extends ServerImpl {
 
 	public void init() {
 
-		bossGroup = new NioEventLoopGroup();
-
 		workerGroup = new NioEventLoopGroup();
 
 		bootstrap = new ServerBootstrap()
 		.group(/*bossGroup,*/workerGroup)
-		.channel(NioServerSocketChannel.class);		
+		.channel(NioServerSocketChannel.class);
 	}
 
 	@Override
@@ -43,8 +38,6 @@ public class NettyServer extends ServerImpl {
 
 	@Override
 	public void stop() throws Exception {
-		bossGroup.shutdownGracefully();
-
 		workerGroup.shutdownGracefully();
 	}
 
