@@ -6,4 +6,6 @@ public interface ActionClient extends Client {
 
 	public void sendState();
 	
+	public void sendMessage(String message);
+	
 }

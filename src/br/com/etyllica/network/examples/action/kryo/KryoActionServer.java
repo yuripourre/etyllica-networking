@@ -1,13 +1,14 @@
 package br.com.etyllica.network.examples.action.kryo;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import br.com.etyllica.network.adapter.kryo.KryonetMixedServer;
+import br.com.etyllica.network.examples.action.model.KeyAction;
 import br.com.etyllica.network.examples.action.model.Message;
 import br.com.etyllica.network.examples.action.model.State;
+import br.com.etyllica.network.examples.action.model.listener.ServerActionListener;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Connection;
@@ -17,12 +18,18 @@ public class KryoActionServer extends KryonetMixedServer {
 
 	private int count = 0;
 		
-	private List<State> states = new ArrayList<State>();
+	private Map<Integer, State> states = new LinkedHashMap<Integer, State>();
 	
 	private Map<Integer, Integer> ids = new HashMap<Integer, Integer>();
 	
-	public KryoActionServer(int tcpPort, int udpPort) {
+	private Map<Integer, String> names = new HashMap<Integer, String>();
+	
+	private ServerActionListener listener;
+	
+	public KryoActionServer(int tcpPort, int udpPort, ServerActionListener listener) {
 		super(tcpPort, udpPort);
+		
+		this.listener = listener;
 	}
 
 	@Override
@@ -33,34 +40,59 @@ public class KryoActionServer extends KryonetMixedServer {
 		kryo.register(State.class);
 		kryo.register(State[].class);
 		kryo.register(Message.class);
+		kryo.register(KeyAction.class);
 
 		server.addListener(new Listener() {
 			
 			public void connected(Connection con) {
-				System.out.println("New player connected! "+count);
-				
 				join(con);
+			}
+			
+			public void disconnected(Connection con) {
+				System.out.println("Player disconnected! "+con.getID());
+				
+				left(con);
 			}
 			
 			public void received (Connection connection, Object object) {
 				if (object instanceof State) {
 					State state = (State)object;
 
-					System.out.println("Receive from "+connection.getID());
-					System.out.println("x: "+state.x);
-					System.out.println("y: "+state.y);
-					System.out.println("Act: "+state.action);
-										
-					//Response with all states
-					State[] array = states.toArray(new State[states.size()]);
-					connection.sendTCP(array);
+					handleState(connection, state);
+				}
+				
+				if (object instanceof Message) {
+					Message message = (Message)object;
+
+					handleMessage(connection, message);
 				}
 			}
 		});
 	}
 	
+	private void handleState(Connection connection, State state) {
+		
+		listener.handleState(connection.getID(), state);
+		
+		//Response with all states
+		State[] array = states.values().toArray(new State[states.size()]);
+		server.sendToAllTCP(array);
+	}
+	
+	private void handleMessage(Connection connection, Message message) {
+		
+		String sender = names.get(connection.getID());
+		
+		message.sender = sender;
+		
+		listener.handleMessage(connection.getID(), message);		
+		
+		server.sendToAllTCP(message);
+	}
+	
 	private void join(Connection connection) {
 		ids.put(connection.getID(), count);
+		names.put(connection.getID(), "Player "+count+1);
 		
 		State state = new State(); 
 		state.y = count;
@@ -68,9 +100,16 @@ public class KryoActionServer extends KryonetMixedServer {
 		if(count>=1) {
 			state.action = "WAITING";
 		}
-		states.add(state);
+		
+		states.put(connection.getID(), state);
 		
 		count++;
-	}	
+		
+		listener.join(connection.getID());
+	}
+	
+	private void left(Connection connection) {
+		listener.left(connection.getID());
+	}
 
 }

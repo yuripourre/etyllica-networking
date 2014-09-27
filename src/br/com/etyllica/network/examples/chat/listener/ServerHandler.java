@@ -1,4 +1,4 @@
-package br.com.etyllica.network.server;
+package br.com.etyllica.network.examples.chat.listener;
 
 public interface ServerHandler {
 

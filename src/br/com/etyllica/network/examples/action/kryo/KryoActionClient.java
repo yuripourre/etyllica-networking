@@ -2,9 +2,10 @@ package br.com.etyllica.network.examples.action.kryo;
 
 import br.com.etyllica.network.adapter.kryo.KryonetMixedClient;
 import br.com.etyllica.network.examples.action.model.ActionClient;
-import br.com.etyllica.network.examples.action.model.ClientActionListener;
+import br.com.etyllica.network.examples.action.model.KeyAction;
 import br.com.etyllica.network.examples.action.model.Message;
 import br.com.etyllica.network.examples.action.model.State;
+import br.com.etyllica.network.examples.action.model.listener.ClientActionListener;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Connection;
@@ -28,6 +29,7 @@ public class KryoActionClient extends KryonetMixedClient implements ActionClient
 		kryo.register(State.class);
 		kryo.register(State[].class);
 		kryo.register(Message.class);
+		kryo.register(KeyAction.class);
 
 		client.addListener(new Listener() {
 			public void received (Connection connection, Object object) {
@@ -41,5 +43,14 @@ public class KryoActionClient extends KryonetMixedClient implements ActionClient
 	@Override
 	public void sendState() {
 		client.sendUDP(state);
+	}
+
+	@Override
+	public void sendMessage(String text) {
+		
+		Message message = new Message();
+		message.text = text;
+		
+		client.sendTCP(message);
 	}
 }

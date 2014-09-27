@@ -1,6 +1,6 @@
 package br.com.etyllica.network.examples.chat;
 
-import br.com.etyllica.network.server.ServerHandler;
+import br.com.etyllica.network.examples.chat.listener.ServerHandler;
 
 public interface ServerChatListener extends ServerHandler {
 

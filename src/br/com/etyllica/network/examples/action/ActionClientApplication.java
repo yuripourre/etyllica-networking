@@ -9,14 +9,15 @@ public class ActionClientApplication {
 		
 		String host = "127.0.0.1";
 		
-		TerminalActionClient action = new TerminalActionClient();
+		TerminalActionClient terminal = new TerminalActionClient();
 		
-		ActionClient client = new KryoActionClient(host, ActionServerApplication.ACTION_TCP_PORT, ActionServerApplication.ACTION_UDP_PORT, action);
+		ActionClient client = new KryoActionClient(host, ActionServerApplication.ACTION_TCP_PORT, ActionServerApplication.ACTION_UDP_PORT, terminal);
 		client.init();
 		client.prepare();
 		client.connect();
-						
-		action.setClient(client);
+		
+		//Responsible to show client states
+		terminal.setClient(client);
 		
 		client.sendState();
 	}

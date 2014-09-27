@@ -1,4 +1,6 @@
-package br.com.etyllica.network.examples.action.model;
+package br.com.etyllica.network.examples.action.model.listener;
+
+import br.com.etyllica.network.examples.action.model.State;
 
 public interface ClientActionListener {
 

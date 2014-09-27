@@ -1,8 +1,8 @@
 package br.com.etyllica.network.examples.action;
 
 import br.com.etyllica.network.client.Client;
-import br.com.etyllica.network.examples.action.model.ClientActionListener;
 import br.com.etyllica.network.examples.action.model.State;
+import br.com.etyllica.network.examples.action.model.listener.ClientActionListener;
 
 public class TerminalActionClient implements ClientActionListener {
 
