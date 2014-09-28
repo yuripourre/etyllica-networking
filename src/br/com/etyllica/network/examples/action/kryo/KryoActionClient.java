@@ -2,10 +2,10 @@ package br.com.etyllica.network.examples.action.kryo;
 
 import br.com.etyllica.network.adapter.kryo.KryonetMixedClient;
 import br.com.etyllica.network.examples.action.model.ActionClient;
-import br.com.etyllica.network.examples.action.model.KeyAction;
-import br.com.etyllica.network.examples.action.model.Message;
 import br.com.etyllica.network.examples.action.model.State;
-import br.com.etyllica.network.examples.action.model.listener.ClientActionListener;
+import br.com.etyllica.network.realtime.ClientActionListener;
+import br.com.etyllica.network.realtime.model.KeyAction;
+import br.com.etyllica.network.realtime.model.Message;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Connection;

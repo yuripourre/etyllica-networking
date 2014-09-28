@@ -2,7 +2,8 @@ package br.com.etyllica.network.examples.action;
 
 import br.com.etyllica.network.client.Client;
 import br.com.etyllica.network.examples.action.model.State;
-import br.com.etyllica.network.examples.action.model.listener.ClientActionListener;
+import br.com.etyllica.network.realtime.ClientActionListener;
+import br.com.etyllica.network.realtime.model.Message;
 
 public class TerminalActionClient implements ClientActionListener {
 
@@ -21,8 +22,8 @@ public class TerminalActionClient implements ClientActionListener {
 	}
 
 	@Override
-	public void receiveMessage(String name, String message) {
-		System.out.println(name+": "+message);
+	public void receiveMessage(Message message) {
+		System.out.println(message.sender+": "+message.text);
 	}
 
 	public Client getClient() {

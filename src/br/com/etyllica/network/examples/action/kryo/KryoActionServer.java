@@ -5,10 +5,10 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import br.com.etyllica.network.adapter.kryo.KryonetMixedServer;
-import br.com.etyllica.network.examples.action.model.KeyAction;
-import br.com.etyllica.network.examples.action.model.Message;
 import br.com.etyllica.network.examples.action.model.State;
-import br.com.etyllica.network.examples.action.model.listener.ServerActionListener;
+import br.com.etyllica.network.realtime.ServerActionListener;
+import br.com.etyllica.network.realtime.model.KeyAction;
+import br.com.etyllica.network.realtime.model.Message;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Connection;

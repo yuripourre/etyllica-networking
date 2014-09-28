@@ -1,4 +1,4 @@
-package br.com.etyllica.network.examples.action.model;
+package br.com.etyllica.network.realtime.model;
 
 import br.com.etyllica.core.event.KeyState;
 

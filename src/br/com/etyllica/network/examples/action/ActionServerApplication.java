@@ -1,7 +1,7 @@
 package br.com.etyllica.network.examples.action;
 
 import br.com.etyllica.network.examples.action.kryo.KryoActionServer;
-import br.com.etyllica.network.examples.action.model.listener.ServerActionListener;
+import br.com.etyllica.network.realtime.ServerActionListener;
 import br.com.etyllica.network.server.Server;
 
 public class ActionServerApplication {

@@ -1,8 +1,8 @@
-package br.com.etyllica.network.examples.action.model.listener;
+package br.com.etyllica.network.realtime;
 
-import br.com.etyllica.network.examples.action.model.KeyAction;
-import br.com.etyllica.network.examples.action.model.Message;
 import br.com.etyllica.network.examples.action.model.State;
+import br.com.etyllica.network.realtime.model.KeyAction;
+import br.com.etyllica.network.realtime.model.Message;
 import br.com.etyllica.network.server.ServerListener;
 
 public interface ServerActionListener extends ServerListener {
