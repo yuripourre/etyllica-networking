@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import br.com.etyllica.core.event.KeyState;
 import br.com.etyllica.network.adapter.kryo.KryonetMixedServer;
 import br.com.etyllica.network.examples.action.model.State;
 import br.com.etyllica.network.realtime.ServerActionListener;
@@ -41,6 +42,7 @@ public class KryoActionServer extends KryonetMixedServer {
 		kryo.register(State[].class);
 		kryo.register(Message.class);
 		kryo.register(KeyAction.class);
+		kryo.register(KeyState.class);
 
 		server.addListener(new Listener() {
 			
@@ -48,9 +50,7 @@ public class KryoActionServer extends KryonetMixedServer {
 				join(con);
 			}
 			
-			public void disconnected(Connection con) {
-				System.out.println("Player disconnected! "+con.getID());
-				
+			public void disconnected(Connection con) {				
 				left(con);
 			}
 			
@@ -65,6 +65,13 @@ public class KryoActionServer extends KryonetMixedServer {
 					Message message = (Message)object;
 
 					handleMessage(connection, message);
+				}
+				
+				if (object instanceof KeyAction) {
+					KeyAction action = (KeyAction)object;
+					System.out.println("Received KEY"+action.key);
+					
+					handleKeyAction(connection, action);
 				}
 			}
 		});
@@ -88,6 +95,11 @@ public class KryoActionServer extends KryonetMixedServer {
 		listener.handleMessage(connection.getID(), message);		
 		
 		server.sendToAllTCP(message);
+	}
+	
+	private void handleKeyAction(Connection connection, KeyAction action) {
+		
+		listener.handleKey(connection.getID(), action);
 	}
 	
 	private void join(Connection connection) {

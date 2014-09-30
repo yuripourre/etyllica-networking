@@ -1,5 +1,6 @@
 package br.com.etyllica.network.examples.action.kryo;
 
+import br.com.etyllica.core.event.KeyState;
 import br.com.etyllica.network.adapter.kryo.KryonetMixedClient;
 import br.com.etyllica.network.examples.action.model.ActionClient;
 import br.com.etyllica.network.examples.action.model.State;
@@ -30,6 +31,7 @@ public class KryoActionClient extends KryonetMixedClient implements ActionClient
 		kryo.register(State[].class);
 		kryo.register(Message.class);
 		kryo.register(KeyAction.class);
+		kryo.register(KeyState.class);
 
 		client.addListener(new Listener() {
 			public void received (Connection connection, Object object) {
