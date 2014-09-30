@@ -41,7 +41,7 @@ public class KryoActionClient extends KryonetMixedClient implements ActionClient
 			}
 		});
 	}
-
+	
 	@Override
 	public void sendState() {
 		client.sendUDP(state);

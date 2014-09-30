@@ -19,6 +19,11 @@ public class KryonetMixedClient extends MixedClientImpl {
 		client = new Client();
 		client.start();
 	}
+	
+	public void initAsThread() {
+		client = new Client();
+		new Thread(client).start();
+	}
 
 	public void finish() {
 		client.stop();

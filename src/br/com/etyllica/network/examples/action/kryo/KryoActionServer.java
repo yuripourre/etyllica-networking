@@ -42,16 +42,16 @@ public class KryoActionServer extends KryonetMixedServer {
 		kryo.register(State[].class);
 		kryo.register(Message.class);
 		kryo.register(KeyAction.class);
-		kryo.register(KeyState.class);
+		kryo.register(KeyState.class);		
 
 		server.addListener(new Listener() {
 			
 			public void connected(Connection con) {
-				join(con);
+				handleJoin(con);
 			}
 			
-			public void disconnected(Connection con) {				
-				left(con);
+			public void disconnected(Connection con) {
+				handleLeft(con);				
 			}
 			
 			public void received (Connection connection, Object object) {
@@ -82,6 +82,10 @@ public class KryoActionServer extends KryonetMixedServer {
 		listener.handleState(connection.getID(), state);
 		
 		//Response with all states
+		sendStates();
+	}
+	
+	private void sendStates() {
 		State[] array = states.values().toArray(new State[states.size()]);
 		server.sendToAllTCP(array);
 	}
@@ -98,18 +102,19 @@ public class KryoActionServer extends KryonetMixedServer {
 	}
 	
 	private void handleKeyAction(Connection connection, KeyAction action) {
-		
 		listener.handleKey(connection.getID(), action);
 	}
 	
-	private void join(Connection connection) {
+	private void handleJoin(Connection connection) {
 		ids.put(connection.getID(), count);
 		names.put(connection.getID(), "Player "+count+1);
 		
-		State state = new State(); 
-		state.y = count;
+		State state = new State();
+		state.id = connection.getID();
+		state.y = 60;
+		state.x = 20+60*count;
 		
-		if(count>=1) {
+		if(count >= 1) {
 			state.action = "WAITING";
 		}
 		
@@ -118,10 +123,12 @@ public class KryoActionServer extends KryonetMixedServer {
 		count++;
 		
 		listener.join(connection.getID());
+		sendStates();
 	}
 	
-	private void left(Connection connection) {
+	private void handleLeft(Connection connection) {
 		listener.left(connection.getID());
+		sendStates();
 	}
 
 }
