@@ -2,7 +2,7 @@ package br.com.etyllica.network.realtime.model;
 
 public class Message {
 
-	public String sender;
+	public int sender;
 	
 	public String text;
 	

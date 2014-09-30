@@ -1,11 +1,8 @@
 package br.com.etyllica.network.examples.action.kryo;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 import br.com.etyllica.core.event.KeyState;
 import br.com.etyllica.network.adapter.kryo.KryonetMixedServer;
+import br.com.etyllica.network.examples.action.Sender;
 import br.com.etyllica.network.examples.action.model.State;
 import br.com.etyllica.network.realtime.ServerActionListener;
 import br.com.etyllica.network.realtime.model.KeyAction;
@@ -15,22 +12,15 @@ import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 
-public class KryoActionServer extends KryonetMixedServer {
-
-	private int count = 0;
+public class KryoActionServer extends KryonetMixedServer implements Sender {
 		
-	private Map<Integer, State> states = new LinkedHashMap<Integer, State>();
-	
-	private Map<Integer, Integer> ids = new HashMap<Integer, Integer>();
-	
-	private Map<Integer, String> names = new HashMap<Integer, String>();
-	
 	private ServerActionListener listener;
 	
 	public KryoActionServer(int tcpPort, int udpPort, ServerActionListener listener) {
 		super(tcpPort, udpPort);
 		
 		this.listener = listener;
+		listener.setSender(this);
 	}
 
 	@Override
@@ -81,20 +71,18 @@ public class KryoActionServer extends KryonetMixedServer {
 		
 		listener.handleState(connection.getID(), state);
 		
-		//Response with all states
-		sendStates();
+		//Response with all states		
+		sendStates(listener.getStates());
 	}
 	
-	private void sendStates() {
-		State[] array = states.values().toArray(new State[states.size()]);
-		server.sendToAllTCP(array);
+	private void sendStates(State[] states) {
+		
+		server.sendToAllUDP(states);
 	}
 	
 	private void handleMessage(Connection connection, Message message) {
-		
-		String sender = names.get(connection.getID());
-		
-		message.sender = sender;
+				
+		message.sender = connection.getID();
 		
 		listener.handleMessage(connection.getID(), message);		
 		
@@ -106,29 +94,24 @@ public class KryoActionServer extends KryonetMixedServer {
 	}
 	
 	private void handleJoin(Connection connection) {
-		ids.put(connection.getID(), count);
-		names.put(connection.getID(), "Player "+count+1);
-		
-		State state = new State();
-		state.id = connection.getID();
-		state.y = 60;
-		state.x = 20+60*count;
-		
-		if(count >= 1) {
-			state.action = "WAITING";
-		}
-		
-		states.put(connection.getID(), state);
-		
-		count++;
 		
 		listener.join(connection.getID());
-		sendStates();
+		sendStates(listener.getStates());
 	}
 	
 	private void handleLeft(Connection connection) {
 		listener.left(connection.getID());
-		sendStates();
+		sendStates(listener.getStates());
+	}
+
+	@Override
+	public void sendToAllTCP(Object object) {
+		server.sendToAllTCP(object);
+	}
+
+	@Override
+	public void sendToAllUDP(Object object) {
+		server.sendToAllUDP(object);
 	}
 
 }
