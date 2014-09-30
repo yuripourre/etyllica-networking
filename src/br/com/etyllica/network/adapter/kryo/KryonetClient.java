@@ -1,9 +1,9 @@
 package br.com.etyllica.network.adapter.kryo;
 
 
-import com.esotericsoftware.kryonet.Client;
-
 import br.com.etyllica.network.client.ClientImpl;
+
+import com.esotericsoftware.kryonet.Client;
 
 public class KryonetClient extends ClientImpl {
 
@@ -18,6 +18,7 @@ public class KryonetClient extends ClientImpl {
 	@Override
 	public void init() {
 		client = new Client();
+		client.start();
 	}
 
 	@Override
@@ -37,7 +38,6 @@ public class KryonetClient extends ClientImpl {
 
 	@Override
 	public void connect() throws Exception {
-		client.start();
 		client.connect(MAXIMUM_WAIT_TIME, host, tcpPort);
 	}
 

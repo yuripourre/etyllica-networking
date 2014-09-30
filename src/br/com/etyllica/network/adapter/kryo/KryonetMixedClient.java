@@ -17,6 +17,7 @@ public class KryonetMixedClient extends MixedClientImpl {
 
 	public void init() {
 		client = new Client();
+		client.start();
 	}
 
 	public void finish() {
@@ -34,7 +35,6 @@ public class KryonetMixedClient extends MixedClientImpl {
 
 	@Override
 	public void connect() throws Exception {
-		new Thread(client).start();
 		
 		client.connect(MAXIMUM_WAIT_TIME, host, tcpPort, udpPort);		
 	}
