@@ -53,4 +53,10 @@ public class KryoActionClient extends KryonetMixedClient implements ActionClient
 		
 		client.sendTCP(message);
 	}
+	
+	@Override
+	public void sendKeyAction(KeyAction action) {
+		client.sendTCP(action);
+	}
+	
 }
