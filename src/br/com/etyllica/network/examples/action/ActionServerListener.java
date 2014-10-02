@@ -1,28 +1,23 @@
 package br.com.etyllica.network.examples.action;
 
+import java.lang.reflect.Array;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.network.examples.action.model.State;
 import br.com.etyllica.network.realtime.ServerActionListener;
-import br.com.etyllica.network.realtime.model.KeyAction;
 import br.com.etyllica.network.realtime.model.Message;
-import br.com.tide.input.controller.Controller;
-import br.com.tide.platform.player.PlatformPlayer;
 import br.com.tide.platform.player.PlatformPlayerListener;
 
-public abstract class PlatformActionServerListener implements ServerActionListener, Runnable, PlatformPlayerListener {
+public abstract class ActionServerListener<T, S> implements ServerActionListener<S>, Runnable, PlatformPlayerListener {
 	
 	private int count = 0;
+
+	protected Map<Integer, T> players = new HashMap<Integer, T>();
 	
-	protected Map<Integer, Controller> controllers = new HashMap<Integer, Controller>();
-	
-	protected Map<Integer, PlatformPlayer> players = new HashMap<Integer, PlatformPlayer>();
-	
-	protected Map<Integer, State> states = new LinkedHashMap<Integer, State>();
+	protected Map<Integer, S> states = new LinkedHashMap<Integer, S>();
 	
 	protected Map<Integer, Integer> ids = new HashMap<Integer, Integer>();
 	
@@ -32,7 +27,7 @@ public abstract class PlatformActionServerListener implements ServerActionListen
 	
 	private Sender sender;
 	
-	public PlatformActionServerListener(int interval) {
+	public ActionServerListener(int interval) {
 		super();
 		
 		this.interval = interval;
@@ -56,22 +51,29 @@ public abstract class PlatformActionServerListener implements ServerActionListen
 	
 	public void execute() {
 		
-		for(Entry<Integer, PlatformPlayer> entry: players.entrySet()) {
+		for(Entry<Integer, T> entry: players.entrySet()) {
 			
 			int id = entry.getKey();
 						
-			PlatformPlayer player = entry.getValue();
-			player.update(0);
+			T player = entry.getValue();
+			updatePlayer(player);
 			
-			//update state						
-			State state = states.get(id);
-			state.x = player.getX();
-			state.y = player.getY();
+			S state = states.get(id);
+			updateState(state, player);
+			
 		}
 		
 		sender.sendToAllUDP(getStates());
 	}
 
+	public abstract S createState(int id);
+	
+	public abstract T createPlayer(int id, S state);
+	
+	public abstract void updatePlayer(T player);
+	
+	public abstract void updateState(S state, T player);
+	
 	public int getInterval() {
 		return interval;
 	}
@@ -85,29 +87,19 @@ public abstract class PlatformActionServerListener implements ServerActionListen
 
 		ids.put(id, count);
 		names.put(id, "Player "+count+1);
-				
-		State state = new State();
-		state.id = id;
-		state.y = 60;
-		state.x = 20+60*count;
+		
+		S state = createState(id);
 		
 		//Set Listener
-		PlatformPlayer listener = new PlatformPlayer(this);
-		listener.setX(state.x);
-		listener.setY(state.y);
+		T listener = createPlayer(id, state);
 				
 		players.put(id, listener);
-		controllers.put(id, new Controller(listener));
-		
-		if(count >= 1) {
-			state.action = "WAITING";
-		}
-		
+				
 		states.put(id, state);
 		
 		count++;
 	}
-
+	
 	@Override
 	public void left(int id) {
 		// TODO Auto-generated method stub
@@ -121,25 +113,26 @@ public abstract class PlatformActionServerListener implements ServerActionListen
 	}
 
 	@Override
-	public void handleKey(int id, KeyAction action) {
-
-		Controller controller = controllers.get(id);
-		
-		KeyEvent event = new KeyEvent(action.key, action.state);
-		controller.handleEvent(event);		
-	}
-
-	@Override
 	public void handleMessage(int id, Message message) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public State[] getStates() {
-		State[] array = states.values().toArray(new State[states.size()]);		
+	public S[] getStates() {
+		
+		Class<?> clazz = getStateClass();
+		
+		int capacity = states.size();
+		
+		S[] array = (S[])Array.newInstance(clazz,capacity);
+	    
+		array = states.values().toArray(array);
+		
 		return array;
 	}
+	
+	public abstract Class<?> getStateClass();
 
 	public Sender getSender() {
 		return sender;

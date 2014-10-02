@@ -6,7 +6,7 @@ import br.com.etyllica.network.realtime.model.KeyAction;
 import br.com.etyllica.network.realtime.model.Message;
 import br.com.etyllica.network.server.ServerListener;
 
-public interface ServerActionListener extends ServerListener {
+public interface ServerActionListener<S> extends ServerListener {
 
 	public void handleState(int id, State state);
 	
@@ -14,7 +14,7 @@ public interface ServerActionListener extends ServerListener {
 	
 	public void handleMessage(int id, Message message);
 	
-	public State[] getStates();
+	public S[] getStates();
 	
 	public void setSender(Sender sender);
 		

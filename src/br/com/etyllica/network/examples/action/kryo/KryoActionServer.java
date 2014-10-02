@@ -12,11 +12,11 @@ import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 
-public class KryoActionServer extends KryonetMixedServer implements Sender {
+public class KryoActionServer<S> extends KryonetMixedServer implements Sender {
 		
-	private ServerActionListener listener;
+	private ServerActionListener<S> listener;
 	
-	public KryoActionServer(int tcpPort, int udpPort, ServerActionListener listener) {
+	public KryoActionServer(int tcpPort, int udpPort, ServerActionListener<S> listener) {
 		super(tcpPort, udpPort);
 		
 		this.listener = listener;
@@ -75,7 +75,7 @@ public class KryoActionServer extends KryonetMixedServer implements Sender {
 		sendStates(listener.getStates());
 	}
 	
-	private void sendStates(State[] states) {
+	private void sendStates(S[] states) {
 		
 		server.sendToAllUDP(states);
 	}
