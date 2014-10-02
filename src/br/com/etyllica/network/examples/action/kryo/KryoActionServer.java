@@ -3,7 +3,6 @@ package br.com.etyllica.network.examples.action.kryo;
 import br.com.etyllica.core.event.KeyState;
 import br.com.etyllica.network.adapter.kryo.KryonetMixedServer;
 import br.com.etyllica.network.examples.action.Sender;
-import br.com.etyllica.network.examples.action.model.State;
 import br.com.etyllica.network.realtime.ServerActionListener;
 import br.com.etyllica.network.realtime.model.KeyAction;
 import br.com.etyllica.network.realtime.model.Message;
@@ -14,6 +13,8 @@ import com.esotericsoftware.kryonet.Listener;
 
 public class KryoActionServer<S> extends KryonetMixedServer implements Sender {
 		
+	private Class<?> stateClass;
+	
 	private ServerActionListener<S> listener;
 	
 	public KryoActionServer(int tcpPort, int udpPort, ServerActionListener<S> listener) {
@@ -21,6 +22,8 @@ public class KryoActionServer<S> extends KryonetMixedServer implements Sender {
 		
 		this.listener = listener;
 		listener.setSender(this);
+		
+		stateClass = listener.getStateClass();
 	}
 
 	@Override
@@ -28,8 +31,10 @@ public class KryoActionServer<S> extends KryonetMixedServer implements Sender {
 		System.out.println("Starting Action Server...");
 
 		Kryo kryo = server.getKryo();
-		kryo.register(State.class);
-		kryo.register(State[].class);
+		//Generic State Class (and array class) 
+		kryo.register(stateClass);
+		kryo.register(getArrayClass(stateClass));
+		//Other classes
 		kryo.register(Message.class);
 		kryo.register(KeyAction.class);
 		kryo.register(KeyState.class);		
@@ -45,10 +50,10 @@ public class KryoActionServer<S> extends KryonetMixedServer implements Sender {
 			}
 			
 			public void received (Connection connection, Object object) {
-				if (object instanceof State) {
-					State state = (State)object;
-
-					handleState(connection, state);
+								
+				if (stateClass.isInstance(object)) {
+					//S state = (S)(stateClass.cast(object));
+					handleState(connection, (S)object);
 				}
 				
 				if (object instanceof Message) {
@@ -67,7 +72,19 @@ public class KryoActionServer<S> extends KryonetMixedServer implements Sender {
 		});
 	}
 	
-	private void handleState(Connection connection, State state) {
+	private Class<?> getArrayClass(Class<?> clazz) {
+		Class<?> arrayClass = clazz;
+		
+		try {
+			arrayClass = Class.forName("[L" + arrayClass.getName() + ";");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		return arrayClass;
+	}
+	
+	private void handleState(Connection connection, S state) {
 		
 		listener.handleState(connection.getID(), state);
 		
@@ -75,8 +92,7 @@ public class KryoActionServer<S> extends KryonetMixedServer implements Sender {
 		sendStates(listener.getStates());
 	}
 	
-	private void sendStates(S[] states) {
-		
+	private void sendStates(S[] states) {		
 		server.sendToAllUDP(states);
 	}
 	

@@ -8,8 +8,9 @@ import br.com.etyllica.network.examples.action.model.State;
 import br.com.etyllica.network.realtime.model.KeyAction;
 import br.com.tide.input.controller.Controller;
 import br.com.tide.platform.player.PlatformPlayer;
+import br.com.tide.platform.player.PlatformPlayerListener;
 
-public class PlatformServerListener extends ActionServerListener<PlatformPlayer, State> {
+public class PlatformServerListener extends ActionServerListener<PlatformPlayer, State> implements PlatformPlayerListener {
 
 	protected Map<Integer, Controller> controllers = new HashMap<Integer, Controller>();
 	

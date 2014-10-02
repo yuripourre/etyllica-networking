@@ -1,6 +1,7 @@
 package br.com.etyllica.network.examples.action;
 
 import br.com.etyllica.network.examples.action.kryo.KryoActionServer;
+import br.com.etyllica.network.examples.action.model.State;
 import br.com.etyllica.network.realtime.ServerActionListener;
 import br.com.etyllica.network.server.Server;
 
@@ -13,7 +14,7 @@ public class ActionServerApplication {
 		
 		ServerActionListener terminal = new TerminalActionServer();
 		
-		Server server = new KryoActionServer(ACTION_TCP_PORT, ACTION_UDP_PORT, terminal);
+		Server server = new KryoActionServer<State>(ACTION_TCP_PORT, ACTION_UDP_PORT, terminal);
 		
 		server.init();
 		server.prepare();

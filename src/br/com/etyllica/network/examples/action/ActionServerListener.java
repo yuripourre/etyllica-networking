@@ -6,12 +6,10 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import br.com.etyllica.network.examples.action.model.State;
 import br.com.etyllica.network.realtime.ServerActionListener;
 import br.com.etyllica.network.realtime.model.Message;
-import br.com.tide.platform.player.PlatformPlayerListener;
 
-public abstract class ActionServerListener<T, S> implements ServerActionListener<S>, Runnable, PlatformPlayerListener {
+public abstract class ActionServerListener<T, S> implements ServerActionListener<S>, Runnable {
 	
 	private int count = 0;
 
@@ -107,7 +105,7 @@ public abstract class ActionServerListener<T, S> implements ServerActionListener
 	}
 
 	@Override
-	public void handleState(int id, State state) {
+	public void handleState(int id, S state) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -125,6 +123,7 @@ public abstract class ActionServerListener<T, S> implements ServerActionListener
 		
 		int capacity = states.size();
 		
+		@SuppressWarnings("unchecked")
 		S[] array = (S[])Array.newInstance(clazz,capacity);
 	    
 		array = states.values().toArray(array);
@@ -132,8 +131,6 @@ public abstract class ActionServerListener<T, S> implements ServerActionListener
 		return array;
 	}
 	
-	public abstract Class<?> getStateClass();
-
 	public Sender getSender() {
 		return sender;
 	}
