@@ -1,8 +1,8 @@
 package br.com.etyllica.network.examples.action.kryo;
 
 import br.com.etyllica.core.event.KeyState;
+import br.com.etyllica.network.Sender;
 import br.com.etyllica.network.adapter.kryo.KryonetMixedServer;
-import br.com.etyllica.network.examples.action.Sender;
 import br.com.etyllica.network.realtime.ServerActionListener;
 import br.com.etyllica.network.realtime.model.KeyAction;
 import br.com.etyllica.network.realtime.model.Message;

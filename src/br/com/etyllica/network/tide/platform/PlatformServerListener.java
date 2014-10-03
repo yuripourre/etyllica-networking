@@ -1,9 +1,10 @@
-package br.com.etyllica.network.examples.action;
+package br.com.etyllica.network.tide.platform;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import br.com.etyllica.core.event.KeyEvent;
+import br.com.etyllica.network.examples.action.ActionServerListener;
 import br.com.etyllica.network.examples.action.model.State;
 import br.com.etyllica.network.realtime.model.KeyAction;
 import br.com.tide.input.controller.Controller;

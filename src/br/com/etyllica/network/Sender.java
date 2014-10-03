@@ -1,4 +1,4 @@
-package br.com.etyllica.network.examples.action;
+package br.com.etyllica.network;
 
 public interface Sender {
 

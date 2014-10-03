@@ -1,6 +1,6 @@
 package br.com.etyllica.network.realtime;
 
-import br.com.etyllica.network.examples.action.Sender;
+import br.com.etyllica.network.Sender;
 import br.com.etyllica.network.realtime.model.KeyAction;
 import br.com.etyllica.network.realtime.model.Message;
 import br.com.etyllica.network.server.ServerListener;
