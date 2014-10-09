@@ -15,7 +15,7 @@ public class TerminalActionClient implements ClientActionListener<State> {
 		for(State state: states) {
 			System.out.println("x: "+state.x);
 	        System.out.println("y: "+state.y);
-	        System.out.println("Act: "+state.action);	
+	        System.out.println("Act: "+state.action);
 		}
 		
 		System.out.println("-------------------------");        
@@ -32,6 +32,16 @@ public class TerminalActionClient implements ClientActionListener<State> {
 
 	public void setClient(Client client) {
 		this.client = client;
+	}
+
+	@Override
+	public void playerJoin(int id, State state) {
+		System.out.println("Player "+id+" joined.");
+	}
+
+	@Override
+	public void playerLeft(int id, State state) {
+		System.out.println("Player "+id+" left.");
 	}
 
 }
