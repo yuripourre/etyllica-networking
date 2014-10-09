@@ -2,11 +2,11 @@ package br.com.etyllica.network.realtime;
 
 import br.com.etyllica.network.realtime.model.Message;
 
-public interface ClientActionListener<S> {
+public interface ClientActionListener<S> extends ActionStateListener<S> {
 
-	public void playerJoin(int id, S state);
+	public void playerJoin(int id);
 
-	public void playerLeft(int id, S state);
+	public void playerLeft(int id);
 	
 	public void updateStates(S[] states);
 	

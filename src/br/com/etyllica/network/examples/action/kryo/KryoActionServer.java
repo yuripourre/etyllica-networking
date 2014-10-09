@@ -6,6 +6,7 @@ import br.com.etyllica.network.adapter.kryo.KryonetMixedServer;
 import br.com.etyllica.network.realtime.ServerActionListener;
 import br.com.etyllica.network.realtime.model.KeyAction;
 import br.com.etyllica.network.realtime.model.Message;
+import br.com.etyllica.util.ReflectionUtils;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Connection;
@@ -33,7 +34,7 @@ public class KryoActionServer<S> extends KryonetMixedServer implements Sender {
 		Kryo kryo = server.getKryo();
 		//Generic State Class (and array class) 
 		kryo.register(stateClass);
-		kryo.register(getArrayClass(stateClass));
+		kryo.register(ReflectionUtils.getArrayClass(stateClass));
 		//Other classes
 		kryo.register(Message.class);
 		kryo.register(KeyAction.class);
@@ -71,19 +72,7 @@ public class KryoActionServer<S> extends KryonetMixedServer implements Sender {
 			}
 		});
 	}
-	
-	private Class<?> getArrayClass(Class<?> clazz) {
-		Class<?> arrayClass = clazz;
 		
-		try {
-			arrayClass = Class.forName("[L" + arrayClass.getName() + ";");
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-		
-		return arrayClass;
-	}
-	
 	private void handleState(Connection connection, S state) {
 		
 		listener.handleState(connection.getID(), state);

@@ -35,13 +35,18 @@ public class TerminalActionClient implements ClientActionListener<State> {
 	}
 
 	@Override
-	public void playerJoin(int id, State state) {
+	public void playerJoin(int id) {
 		System.out.println("Player "+id+" joined.");
 	}
 
 	@Override
-	public void playerLeft(int id, State state) {
+	public void playerLeft(int id) {
 		System.out.println("Player "+id+" left.");
+	}
+
+	@Override
+	public Class<?> getStateClass() {
+		return State.class;
 	}
 
 }

@@ -7,41 +7,58 @@ import br.com.etyllica.network.examples.action.model.State;
 import br.com.etyllica.network.realtime.ClientActionListener;
 import br.com.etyllica.network.realtime.model.KeyAction;
 import br.com.etyllica.network.realtime.model.Message;
+import br.com.etyllica.util.ReflectionUtils;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 
-public class KryoActionClient extends KryonetMixedClient implements ActionClient {
+public class KryoActionClient<S> extends KryonetMixedClient implements ActionClient {
 
 	private State state = new State();
 
-	private ClientActionListener listener;
+	private Class<?> stateClass;
 
-	public KryoActionClient(String host, int tcpPort, int udpPort, ClientActionListener listener) {
+	private Class<?> arrayStateClass;
+
+	private ClientActionListener<S> listener;
+
+	public KryoActionClient(String host, int tcpPort, int udpPort, ClientActionListener<S> listener) {
 		super(host, tcpPort, udpPort);
 
-		this.listener = listener;		
+		this.listener = listener;
+
+		stateClass = listener.getStateClass();
+
+		arrayStateClass = ReflectionUtils.getArrayClass(stateClass);
 	}
 
 	@Override
 	public void prepare() {
 		Kryo kryo = client.getKryo();
-		kryo.register(State.class);
-		kryo.register(State[].class);
+		//Generic State Class (and array class) 
+		kryo.register(stateClass);
+		kryo.register(arrayStateClass);
+		//Other classes
 		kryo.register(Message.class);
 		kryo.register(KeyAction.class);
 		kryo.register(KeyState.class);
 
 		client.addListener(new Listener() {
+
+			public void connected (Connection connection) {
+				listener.playerJoin(connection.getID());
+			}
+
+			@Override
 			public void received (Connection connection, Object object) {
-				if (object instanceof State[]) {
-					listener.updateStates((State[])object);
+				if (arrayStateClass.isInstance(object)) {
+					listener.updateStates((S[])object);
 				}
 			}
 		});
 	}
-	
+
 	@Override
 	public void sendState() {
 		client.sendUDP(state);
@@ -49,16 +66,16 @@ public class KryoActionClient extends KryonetMixedClient implements ActionClient
 
 	@Override
 	public void sendMessage(String text) {
-		
+
 		Message message = new Message();
 		message.text = text;
-		
+
 		client.sendTCP(message);
 	}
-	
+
 	@Override
 	public void sendKeyAction(KeyAction action) {
 		client.sendTCP(action);
 	}
-	
+
 }
