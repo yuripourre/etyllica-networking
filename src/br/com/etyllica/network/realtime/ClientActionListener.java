@@ -1,11 +1,10 @@
 package br.com.etyllica.network.realtime;
 
-import br.com.etyllica.network.examples.action.model.State;
 import br.com.etyllica.network.realtime.model.Message;
 
-public interface ClientActionListener {
+public interface ClientActionListener<S> {
 
-	public void updateStates(State[] states);
+	public void updateStates(S[] states);
 	
 	public void receiveMessage(Message message);
 	

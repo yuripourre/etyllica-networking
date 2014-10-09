@@ -5,7 +5,7 @@ import br.com.etyllica.network.examples.action.model.State;
 import br.com.etyllica.network.realtime.ClientActionListener;
 import br.com.etyllica.network.realtime.model.Message;
 
-public class TerminalActionClient implements ClientActionListener {
+public class TerminalActionClient implements ClientActionListener<State> {
 
 	private Client client;
 	
