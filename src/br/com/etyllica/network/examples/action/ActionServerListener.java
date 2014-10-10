@@ -36,7 +36,7 @@ public abstract class ActionServerListener<T, S> implements ServerActionListener
 		
 		while(true) {
 		    
-			execute();
+			process();
 		    
 		    try {
 				Thread.sleep(interval);
@@ -48,7 +48,9 @@ public abstract class ActionServerListener<T, S> implements ServerActionListener
 		
 	}
 	
-	public void execute() {
+	public void process() {
+		
+		execute();
 		
 		for(Entry<Integer, T> entry: players.entrySet()) {
 			
@@ -64,6 +66,8 @@ public abstract class ActionServerListener<T, S> implements ServerActionListener
 		
 		sender.sendToAllUDP(getStates());
 	}
+	
+	public abstract void execute();
 
 	public abstract S createState(int id);
 	

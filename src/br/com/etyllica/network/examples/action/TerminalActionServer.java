@@ -41,7 +41,7 @@ public class TerminalActionServer extends PlatformServerListener {
 	}
 
 	@Override
-	public void execute() {
+	public void process() {
 		// TODO Auto-generated method stub
 	}
 
