@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<project name="Etyllica" default="dist" basedir=".">
+
+	<property name="version"  value="4.3" />
+
+	<property name="libcore"  value="etyllica-${version}-network" />
+
+	<property name="src.dir"   value="src" />
+	<property name="build.dir" value="bin" />
+	<property name="lib.dir"   value="libs"/>
+	<property name="dist.dir"   value="dist"/>
+
+	<path id="classpath">
+		<fileset dir="${lib.dir}" includes="**/*.jar" />
+	</path>
+	
+	<target name="dist" depends="clean, init, package"/>
+
+	<target name="init">
+		<mkdir dir="${build.dir}" />
+	</target>
+
+	<target name="clean">
+		<delete includeemptydirs="true" >
+			<fileset dir="${build.dir}">
+				<exclude name="**/assets/*"/>
+				<exclude name="**/assets/**"/>
+			</fileset>
+		</delete>
+	</target>
+   
+	<target name="compile">
+    		<javac srcdir="${src.dir}" destdir="${build.dir}" classpathref="classpath" source="1.6" target="1.6" debug="off">
+			<classpath refid="classpath" />
+		</javac>
+	</target>
+
+	<target name="package" depends="compile">
+		<jar destfile="${dist.dir}/${libcore}.jar">
+			<fileset dir="${build.dir}">
+				<include name="**/br/com/etyllica/network/*"/>
+				<include name="**/br/com/etyllica/network/**"/>
+			</fileset>
+		</jar>
+	</target>
+	
+</project>
