@@ -1,70 +1,48 @@
-package br.com.etyllica.network.tide.platform;
+package examples.action;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import examples.action.ActionServerListener;
 import examples.action.model.State;
-import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.network.realtime.model.KeyAction;
-import br.com.tide.input.controller.Controller;
+import br.com.etyllica.network.realtime.model.Message;
+import br.com.etyllica.network.tide.platform.PlatformServerListener;
 import br.com.tide.platform.player.PlatformPlayer;
-import br.com.tide.platform.player.PlatformPlayerListener;
 
-public class PlatformServerListener extends ActionServerListener<PlatformPlayer, State> implements PlatformPlayerListener {
-
-	protected Map<Integer, Controller> controllers = new HashMap<Integer, Controller>();
+public class TerminalActionServer extends PlatformServerListener {
 	
-	public PlatformServerListener(int interval) {
-		super(interval);
+	public TerminalActionServer() {
+		super(200);
 	}
 
 	@Override
-	public PlatformPlayer createPlayer(int id, State state) {
-		
-		PlatformPlayer listener = new PlatformPlayer(this);
-		listener.setX(state.x);
-		listener.setY(state.y);
+	public void join(int id) {
+		System.out.println("New player connected! "+id);
+	}
 
-		controllers.put(id, new Controller(listener));
-		
-		return listener;
-	}
-	
 	@Override
-	public void updatePlayer(PlatformPlayer player) {
-		player.update(0);
+	public void left(int id) {
+		System.out.println("Player disconnected! "+id);
 	}
-	
+
 	@Override
-	public State createState(int id) {
-		
-		State state = new State();
-		state.id = id;
-		state.y = 60;
-		state.x = 20+60*id;
-		
-		return state;
+	public void handleState(int id, State state) {
+		System.out.println("Receive from "+id);
+		System.out.println("x: "+state.x);
+		System.out.println("y: "+state.y);
+		System.out.println("Act: "+state.action);
 	}
-	
-	@Override
-	public void updateState(State state, PlatformPlayer player) {
-		//update state
-		state.x = player.getX();
-		state.y = player.getY();
-	}
-	
-	public Class<?> getStateClass() {
-		return State.class;
-	}
-	
+
 	@Override
 	public void handleKey(int id, KeyAction action) {
+		System.out.println(id+": "+action.state+" "+action.key);
+	}
 
-		Controller controller = controllers.get(id);
-		
-		KeyEvent event = new KeyEvent(action.key, action.state);
-		controller.handleEvent(event);		
+	@Override
+	public void handleMessage(int id, Message message) {
+		System.out.println(message.sender+": "+message.text);
+	}
+
+	@Override
+	public void process() {
+		// TODO Auto-generated method stub
 	}
 
 	@Override
@@ -154,11 +132,6 @@ public class PlatformServerListener extends ActionServerListener<PlatformPlayer,
 	@Override
 	public void onStopRun(PlatformPlayer player) {
 		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void execute() {
 		
 	}
 
